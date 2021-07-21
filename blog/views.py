@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 from .models import POST
 
@@ -7,3 +7,8 @@ def post_lists(request):
     posts = POST.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     stuff_for_frontend = {'posts': posts}
     return render(request, 'blog/post_lists.html', stuff_for_frontend)
+
+def post_detail(request, pk):
+    post = get_object_or_404(POST, pk=pk)
+    stuff_for_frontend = {'post': post}
+    return render(request, 'blog/post_detail.html', stuff_for_frontend)
